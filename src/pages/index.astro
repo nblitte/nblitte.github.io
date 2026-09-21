@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects"))
+  .sort((a, b) => b.data.date.localeCompare(a.data.date))
+  .slice(0, 3);
+---
+
+<BaseLayout
+  pageTitle="Accueil"
+  pageDescription="Portfolio, CV et articles sur la cybersécurité (SOC/GRC), l'automatisation des tests et la qualité logicielle."
+>
+  <Hero
+    title="Cybersécurité, Qualité & Automatisation"
+    subtitle="Je conçois et automatise la validation des contrôles de sécurité pour produire des preuves reproductibles et des rapports exploitables — au croisement de la QA, de l'automatisation et de la cybersécurité (SOC/GRC)."
+  />
+
+  <section class="grid">
+    <article class="card">
+      <h2>Cybersécurité (Blue Team / GRC)</h2>
+      <p class="muted">Analyse de risques, détection d'anomalies réseau, validation de configurations, reporting structuré.</p>
+    </article>
+
+    <article class="card">
+      <h2>Tests & Qualité (ISTQB)</h2>
+      <p class="muted">Plans de test, cas de test, non-régression, traçabilité, approche orientée preuve et audit.</p>
+    </article>
+
+    <article class="card">
+      <h2>Automatisation</h2>
+      <p class="muted">Selenium, Appium, Robot Framework, API (Postman/Newman), intégration CI/CD (Jenkins).</p>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section__head">
+      <h2>Projets en vedette</h2>
+      <a class="link" href="/portfolio">Tout voir →</a>
+    </div>
+
+    <div class="grid">
+      {projects.map((p) => (
+        <ProjectCard
+          title={p.data.title}
+          description={p.data.subtitle ?? ""}
+          stack={p.data.tags}
+          href={`/projects/${p.id}`}
+          github={p.data.github}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

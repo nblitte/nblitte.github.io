@@ -1,0 +1,36 @@
+---
+import Seo from "../components/Seo.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site";
+import "../styles/global.css";
+
+interface Props {
+  pageTitle?: string;
+  pageDescription?: string;
+  canonical?: string;
+}
+
+const { pageTitle, pageDescription, canonical } = Astro.props;
+const title = pageTitle ? `${pageTitle} — ${SITE.name}` : SITE.title;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <Seo
+      title={title}
+      description={pageDescription ?? SITE.description}
+      canonical={canonical ?? SITE.url + Astro.url.pathname}
+    />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+
+  <body>
+    <Header />
+    <main class="container">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

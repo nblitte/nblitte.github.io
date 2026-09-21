@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LINKS } from "../config/site";
+---
+
+<BaseLayout
+  pageTitle="À propos"
+  pageDescription="Parcours en qualité logicielle, automatisation des tests et transition vers la cybersécurité (SOC/GRC)."
+>
+  <section class="section" style="border-top: none; margin-top: 0;">
+    <h1>À propos</h1>
+
+    <p>
+      Après 15 ans en gestion de projet, QA et automatisation des tests — dont la création et la direction
+      d'une société de test logiciel — je construis aujourd'hui une double compétence en cybersécurité
+      (SOC/GRC) et automatisation, avec l'objectif de rejoindre une équipe sécurité où rigueur méthodologique
+      et culture de la preuve font la différence.
+    </p>
+
+    <h2>Ce que j'apporte</h2>
+    <ul>
+      <li>Une approche structurée : stratégie de test, criticité, couverture, priorisation des risques.</li>
+      <li>De l'automatisation utile : UI (Selenium), mobile (Appium), API (Postman/Newman, SoapUI), intégration CI/CD (Jenkins).</li>
+      <li>Une culture qualité + sécurité : anticiper les failles fonctionnelles qui deviennent des vulnérabilités (auth, rôles, validation, erreurs, exposition d'informations).</li>
+    </ul>
+
+    <h2>Outils & pratiques</h2>
+    <p class="muted">
+      Selenium · Postman/Newman · SoapUI · Jenkins · Git · Maven · JIRA · Appium · Robot Framework ·
+      Certifications ISTQB
+    </p>
+
+    <div class="cta-row">
+      {LINKS.cvPdf && <a class="btn" href={LINKS.cvPdf}>Télécharger mon CV</a>}
+      <a class="btn btn--ghost" href={LINKS.github} target="_blank" rel="noreferrer">Voir mon GitHub</a>
+      <a class="btn btn--ghost" href="/contact">Me contacter</a>
+    </div>
+  </section>
+</BaseLayout>

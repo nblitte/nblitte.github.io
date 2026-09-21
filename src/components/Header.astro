@@ -1,0 +1,27 @@
+---
+import { SITE, LINKS, NAV } from "../config/site";
+const pathname = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/">{SITE.name}</a>
+
+    <nav class="nav" aria-label="Navigation principale">
+      {NAV.map((item) => (
+        <a
+          class={`nav__link ${pathname === item.href ? "is-active" : ""}`}
+          href={item.href}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="header__actions">
+      <a class="btn btn--ghost" href="/neovim" title="Version éditeur du portfolio (clin d'œil)">nvim</a>
+      <a class="btn btn--ghost" href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>
+      {LINKS.cvPdf && <a class="btn" href={LINKS.cvPdf}>CV (PDF)</a>}
+    </div>
+  </div>
+</header>

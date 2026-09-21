@@ -1,0 +1,15 @@
+---
+import { LINKS, SITE } from "../config/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© {year} {SITE.name}. Tous droits réservés.</p>
+    <div class="footer__links">
+      <a href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      <a href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>
+      <a href={`mailto:${LINKS.email}`}>Email</a>
+    </div>
+  </div>
+</footer>

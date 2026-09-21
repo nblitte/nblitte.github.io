@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort((a, b) =>
+  b.data.date.localeCompare(a.data.date)
+);
+---
+
+<BaseLayout pageTitle="Blog" pageDescription="Articles sur la cybersécurité, la QA et l'automatisation des tests.">
+  <h1>Blog</h1>
+
+  {posts.length === 0 && (
+    <p class="muted">Pas encore d'article publié. Premier article à venir bientôt.</p>
+  )}
+
+  <div class="grid" style="grid-template-columns: 1fr;">
+    {posts.map((post) => (
+      <article class="card">
+        <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
+        <p class="muted">{post.data.date}</p>
+        {post.data.description && <p>{post.data.description}</p>}
+      </article>
+    ))}
+  </div>
+</BaseLayout>

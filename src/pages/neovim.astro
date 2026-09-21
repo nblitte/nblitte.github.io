@@ -1,0 +1,338 @@
+---
+// Version « éditeur » du portfolio : un clin d'œil pour un public technique.
+// Le site classique reste la référence ; cette page est optionnelle.
+import { getCollection } from "astro:content";
+import { SITE, LINKS } from "../config/site";
+
+type Line = { t: "h1" | "h2" | "text" | "link" | "code" | "blank" | "comment"; s: string; href?: string };
+type Buffer = { name: string; lines: Line[] };
+
+const L = {
+  h1: (s: string): Line => ({ t: "h1", s }),
+  h2: (s: string): Line => ({ t: "h2", s }),
+  text: (s: string): Line => ({ t: "text", s }),
+  code: (s: string): Line => ({ t: "code", s }),
+  comment: (s: string): Line => ({ t: "comment", s }),
+  link: (s: string, href: string): Line => ({ t: "link", s, href }),
+  blank: (): Line => ({ t: "blank", s: "" }),
+};
+
+const projects = (await getCollection("projects")).sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+const emailIsReal = !LINKS.email.endsWith("@example.com");
+
+const buffers: Buffer[] = [
+  {
+    name: "README.md",
+    lines: [
+      L.h1(`# ${SITE.name}`),
+      L.blank(),
+      L.text("Cybersécurité (Blue Team, GRC) · Qualité · Automatisation"),
+      L.blank(),
+      L.text("Je conçois et automatise la validation des contrôles de sécurité"),
+      L.text("pour produire des preuves reproductibles et des rapports"),
+      L.text("exploitables en audit, SOC et GRC."),
+      L.blank(),
+      L.h2("## Navigation"),
+      L.text("  j / k      descendre / monter        gg / G   début / fin"),
+      L.text("  1 .. 9     ouvrir un fichier          Entrée   suivre le lien"),
+      L.text("  :e <nom>   ouvrir par nom             :q       retour au site"),
+      L.text("  ?          aide complète"),
+      L.blank(),
+      L.link("→ Retour au site classique (:q)", "/"),
+    ],
+  },
+  {
+    name: "about.md",
+    lines: [
+      L.h1("# À propos"),
+      L.blank(),
+      L.text("15 ans en gestion de projet, QA et automatisation des tests,"),
+      L.text("dont la création et la direction d'une société de test logiciel."),
+      L.text("Je construis une double compétence cybersécurité (SOC/GRC)"),
+      L.text("et automatisation."),
+      L.blank(),
+      L.h2("## Ce que j'apporte"),
+      L.text("- Une approche structurée : criticité, couverture, priorisation des risques"),
+      L.text("- De l'automatisation utile : Selenium, Postman/Newman, CI/CD"),
+      L.text("- Une culture qualité + sécurité : auth, rôles, erreurs, exposition d'infos"),
+      L.blank(),
+      L.link("→ Page À propos complète", "/a-propos"),
+      L.link("→ CV", "/cv"),
+    ],
+  },
+  {
+    name: "skills.lua",
+    lines: [
+      L.comment("-- Compétences"),
+      L.code("return {"),
+      L.code('  cyber      = { "Analyse de risques", "Détection d\'anomalies", "Reporting priorisé" },'),
+      L.code('  qualite    = { "ISTQB", "Plans de test", "Non-régression", "Traçabilité" },'),
+      L.code('  automation = { "Selenium", "Pytest", "Appium", "Robot Framework" },'),
+      L.code('  api        = { "Postman/Newman", "SoapUI" },'),
+      L.code('  ci_cd      = { "GitHub Actions", "Jenkins", "Git", "Docker" },'),
+      L.code('  scripting  = { "Bash", "Python" },'),
+      L.code("}"),
+      L.blank(),
+      L.link("→ Détail des compétences", "/skills"),
+    ],
+  },
+  ...projects.map<Buffer>((p) => ({
+    name: `projects/${p.id}.md`,
+    lines: [
+      L.h1(`# ${p.data.title}`),
+      ...(p.data.subtitle ? [L.blank(), L.text(p.data.subtitle)] : []),
+      L.blank(),
+      L.text(`track : ${p.data.track}`),
+      L.text(`tags  : ${p.data.tags.join(", ")}`),
+      ...(p.data.deliverables.length
+        ? [L.blank(), L.h2("## Livrables"), ...p.data.deliverables.map((d) => L.text(`- ${d}`))]
+        : []),
+      L.blank(),
+      ...(p.data.github ? [L.link("→ Code source sur GitHub", p.data.github)] : []),
+      L.link("→ Étude de cas complète", `/projects/${p.id}`),
+    ],
+  })),
+  {
+    name: "contact.txt",
+    lines: [
+      L.h1("# Contact"),
+      L.blank(),
+      L.link("GitHub    " + LINKS.github, LINKS.github),
+      L.link("LinkedIn  " + LINKS.linkedin, LINKS.linkedin),
+      ...(emailIsReal ? [L.link("Email     " + LINKS.email, `mailto:${LINKS.email}`)] : []),
+      L.link("Blog      /blog", "/blog"),
+      L.link("Contact   /contact", "/contact"),
+    ],
+  },
+];
+
+const helpLines: Line[] = [
+  L.h1("# Aide"),
+  L.blank(),
+  L.text("j k            ligne suivante / précédente"),
+  L.text("Ctrl-d Ctrl-u  demi-page bas / haut"),
+  L.text("gg  G          début / fin du fichier"),
+  L.text("1..9           ouvrir le fichier n° dans l'arborescence"),
+  L.text("Entrée         suivre le lien de la ligne courante"),
+  L.text(":e <nom>       ouvrir un fichier (correspondance partielle)"),
+  L.text(":ls            lister les fichiers"),
+  L.text(":q             quitter → site classique"),
+  L.text("?  puis Échap  aide / retour"),
+];
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>nvim — {SITE.name}</title>
+    <meta name="description" content="Version éditeur du portfolio de Nathalie Blitte." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" />
+  </head>
+  <body class="nv">
+    <div class="nv-app" id="nv-app">
+      <aside class="nv-tree" id="nv-tree" aria-label="Fichiers"></aside>
+      <section class="nv-main">
+        <div class="nv-tabline" id="nv-tabline"></div>
+        <div class="nv-buffer" id="nv-buffer" tabindex="0" role="document" aria-label="Contenu du fichier"></div>
+        <div class="nv-status" id="nv-status"></div>
+        <div class="nv-cmd" id="nv-cmd" aria-live="polite"></div>
+      </section>
+    </div>
+    <noscript>
+      <p class="nv-noscript">JavaScript est nécessaire pour cette page. <a href="/">Retour au site</a>.</p>
+    </noscript>
+
+    <script id="nv-data" type="application/json" set:html={JSON.stringify({ buffers, help: { name: "help.txt", lines: helpLines } })} />
+
+    <script is:inline>
+      (function () {
+        var data = JSON.parse(document.getElementById("nv-data").textContent);
+        var buffers = data.buffers, help = data.help;
+        var treeEl = document.getElementById("nv-tree");
+        var tabEl = document.getElementById("nv-tabline");
+        var bufEl = document.getElementById("nv-buffer");
+        var statusEl = document.getElementById("nv-status");
+        var cmdEl = document.getElementById("nv-cmd");
+
+        var cur = buffers[0], cursor = 0, prev = null;
+        var pendingG = false, cmdMode = false, cmdText = "";
+
+        function el(tag, cls, text) {
+          var e = document.createElement(tag);
+          if (cls) e.className = cls;
+          if (text !== undefined) e.textContent = text;
+          return e;
+        }
+
+        function renderTree() {
+          treeEl.textContent = "";
+          treeEl.appendChild(el("div", "nv-tree-title", "EXPLORER"));
+          buffers.forEach(function (b, i) {
+            var row = el("button", "nv-tree-item" + (b === cur ? " is-cur" : ""));
+            row.type = "button";
+            row.appendChild(el("span", "nv-tree-num", String(i + 1)));
+            row.appendChild(el("span", "nv-tree-name", b.name));
+            row.addEventListener("click", function () { open(b); bufEl.focus(); });
+            treeEl.appendChild(row);
+          });
+          var back = el("a", "nv-tree-back", "← site classique");
+          back.href = "/";
+          treeEl.appendChild(back);
+        }
+
+        function renderTab() {
+          tabEl.textContent = "";
+          tabEl.appendChild(el("span", "nv-tab", cur.name));
+        }
+
+        function renderBuffer() {
+          bufEl.textContent = "";
+          cur.lines.forEach(function (ln, i) {
+            var row = el("div", "nv-line" + (i === cursor ? " is-cursor" : ""));
+            row.appendChild(el("span", "nv-ln", String(i + 1)));
+            var content;
+            if (ln.t === "link") {
+              content = el("a", "nv-txt nv-link", ln.s);
+              content.href = ln.href;
+              if (/^https?:/.test(ln.href)) { content.target = "_blank"; content.rel = "noreferrer"; }
+            } else {
+              content = el("span", "nv-txt nv-" + ln.t, ln.s || " ");
+            }
+            row.appendChild(content);
+            row.addEventListener("click", function () { cursor = i; renderBuffer(); });
+            bufEl.appendChild(row);
+          });
+          renderStatus();
+        }
+
+        function renderStatus() {
+          statusEl.textContent = "";
+          statusEl.appendChild(el("span", "nv-mode", cmdMode ? " COMMAND " : " NORMAL "));
+          statusEl.appendChild(el("span", "nv-file", " " + cur.name));
+          statusEl.appendChild(el("span", "nv-pos", (cursor + 1) + ":1  " + Math.round(((cursor + 1) / cur.lines.length) * 100) + "% "));
+        }
+
+        function scrollToCursor() {
+          var row = bufEl.children[cursor];
+          if (row && row.scrollIntoView) row.scrollIntoView({ block: "nearest" });
+        }
+
+        function msg(text) { cmdEl.textContent = text; }
+
+        function open(b) {
+          if (b !== cur) prev = cur;
+          cur = b; cursor = 0;
+          renderTree(); renderTab(); renderBuffer();
+          bufEl.scrollTop = 0;
+          msg('"' + b.name + '" ' + b.lines.length + "L");
+        }
+
+        function move(n) {
+          cursor = Math.max(0, Math.min(cur.lines.length - 1, cursor + n));
+          renderBuffer(); scrollToCursor();
+        }
+
+        function follow() {
+          var ln = cur.lines[cursor];
+          if (ln && ln.t === "link") {
+            if (/^https?:/.test(ln.href)) window.open(ln.href, "_blank", "noopener");
+            else window.location.href = ln.href;
+          }
+        }
+
+        function runCommand(text) {
+          var parts = text.trim().split(/\s+/), c = parts[0], arg = parts.slice(1).join(" ").toLowerCase();
+          if (c === "q" || c === "q!" || c === "qa" || c === "wq" || c === "x") { window.location.href = "/"; return; }
+          if (c === "help" || c === "h") { open(help); return; }
+          if (c === "ls" || c === "buffers") { msg(buffers.map(function (b, i) { return (i + 1) + ":" + b.name; }).join("  ")); return; }
+          if (c === "e" || c === "edit") {
+            var m = buffers.filter(function (b) { return b.name.toLowerCase().indexOf(arg) !== -1; });
+            if (arg && m.length) open(m[0]); else msg("E484: fichier introuvable : " + arg);
+            return;
+          }
+          if (c === "") return;
+          msg("E492: commande inconnue : " + c);
+        }
+
+        function showCmd() { cmdEl.textContent = ":" + cmdText; }
+
+        document.addEventListener("keydown", function (e) {
+          if (e.ctrlKey && (e.key === "d" || e.key === "u")) {
+            e.preventDefault(); move(e.key === "d" ? 10 : -10); return;
+          }
+          if (e.metaKey || e.altKey || e.ctrlKey) return;
+
+          if (cmdMode) {
+            if (e.key === "Escape") { cmdMode = false; cmdText = ""; msg(""); renderStatus(); }
+            else if (e.key === "Enter") { var t = cmdText; cmdMode = false; cmdText = ""; msg(""); renderStatus(); runCommand(t); }
+            else if (e.key === "Backspace") { cmdText = cmdText.slice(0, -1); if (!cmdText) { cmdMode = false; msg(""); renderStatus(); } else showCmd(); }
+            else if (e.key.length === 1) { cmdText += e.key; showCmd(); }
+            e.preventDefault();
+            return;
+          }
+
+          var k = e.key;
+          if (k === "g") { if (pendingG) { cursor = 0; renderBuffer(); scrollToCursor(); pendingG = false; } else pendingG = true; e.preventDefault(); return; }
+          pendingG = false;
+
+          if (k === ":") { cmdMode = true; cmdText = ""; showCmd(); renderStatus(); e.preventDefault(); }
+          else if (k === "j" || k === "ArrowDown") { move(1); e.preventDefault(); }
+          else if (k === "k" || k === "ArrowUp") { move(-1); e.preventDefault(); }
+          else if (k === "G") { cursor = cur.lines.length - 1; renderBuffer(); scrollToCursor(); e.preventDefault(); }
+          else if (k === "Enter") { follow(); e.preventDefault(); }
+          else if (k === "?") { open(help); e.preventDefault(); }
+          else if (k === "Escape") { if (cur === help && prev) open(prev); }
+          else if (/^[1-9]$/.test(k)) { var b = buffers[parseInt(k, 10) - 1]; if (b) { open(b); e.preventDefault(); } }
+        });
+
+        renderTree(); renderTab(); renderBuffer();
+        msg('"' + cur.name + '" ' + cur.lines.length + "L — tape ? pour l'aide, :q pour revenir au site");
+        bufEl.focus();
+      })();
+    </script>
+
+    <style is:global>
+      .nv { margin: 0; background: #1a1b26; color: #c0caf5; font-family: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace; font-size: 15px; height: 100vh; height: 100dvh; overflow: hidden; }
+      .nv-app { display: grid; grid-template-columns: 240px 1fr; height: 100%; }
+      .nv-tree { background: #16161e; border-right: 1px solid #292e42; padding: 10px 0; display: flex; flex-direction: column; overflow-y: auto; }
+      .nv-tree-title { color: #565f89; font-size: 12px; letter-spacing: 1px; padding: 4px 14px 10px; }
+      .nv-tree-item { display: flex; gap: 10px; background: none; border: 0; color: #a9b1d6; font: inherit; text-align: left; padding: 4px 14px; cursor: pointer; }
+      .nv-tree-item:hover { background: #1f2335; }
+      .nv-tree-item.is-cur { background: #292e42; color: #7aa2f7; }
+      .nv-tree-num { color: #565f89; min-width: 1ch; }
+      .nv-tree-back { margin-top: auto; padding: 12px 14px; color: #7dcfff; text-decoration: none; }
+      .nv-tree-back:hover { text-decoration: underline; color: #7dcfff; }
+      .nv-main { display: flex; flex-direction: column; min-width: 0; height: 100%; }
+      .nv-tabline { background: #16161e; border-bottom: 1px solid #292e42; padding: 6px 10px; }
+      .nv-tab { background: #1a1b26; color: #7aa2f7; padding: 3px 12px; border-radius: 4px 4px 0 0; }
+      .nv-buffer { flex: 1; overflow-y: auto; padding: 6px 0; outline: none; }
+      .nv-line { display: flex; white-space: pre; cursor: default; }
+      .nv-line.is-cursor { background: #292e42; }
+      .nv-ln { color: #3b4261; width: 4ch; text-align: right; padding-right: 2ch; flex: none; user-select: none; }
+      .is-cursor .nv-ln { color: #ff9e64; }
+      .nv-txt { white-space: pre-wrap; word-break: break-word; }
+      .nv-h1 { color: #bb9af7; font-weight: 700; }
+      .nv-h2 { color: #7aa2f7; font-weight: 700; }
+      .nv-comment { color: #565f89; font-style: italic; }
+      .nv-code { color: #9ece6a; }
+      .nv-link { color: #7dcfff; text-decoration: underline; }
+      .nv-link:hover { color: #b4f9f8; }
+      .nv-status { display: flex; background: #292e42; color: #a9b1d6; }
+      .nv-mode { background: #7aa2f7; color: #15161e; font-weight: 700; }
+      .nv-file { flex: 1; padding-left: 4px; }
+      .nv-pos { color: #565f89; }
+      .nv-cmd { min-height: 1.6em; padding: 2px 10px; color: #a9b1d6; background: #1a1b26; }
+      .nv-noscript { padding: 20px; }
+      @media (max-width: 720px) {
+        .nv-app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+        .nv-tree { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid #292e42; padding: 4px; }
+        .nv-tree-title { display: none; }
+        .nv-tree-back { margin: 0 0 0 auto; padding: 4px 10px; }
+      }
+    </style>
+  </body>
+</html>

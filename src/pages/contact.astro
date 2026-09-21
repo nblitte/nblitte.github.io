@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LINKS } from "../config/site";
+---
+
+<BaseLayout pageTitle="Contact" pageDescription="Me contacter.">
+  <h1>Contact</h1>
+  <p>
+    <a class="btn" href={`mailto:${LINKS.email}`}>Envoyer un email</a>
+    <a class="btn btn--ghost" href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+    <a class="btn btn--ghost" href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>
+  </p>
+</BaseLayout>

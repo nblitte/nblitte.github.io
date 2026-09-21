@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  stack: string[];
+  href: string;
+  github?: string;
+}
+
+const { title, description, stack, href, github } = Astro.props;
+---
+
+<article class="card">
+  <h3><a href={href}>{title}</a></h3>
+  <p class="muted">{description}</p>
+  <div class="tags">
+    {stack.map((s) => <span class="pill">{s}</span>)}
+  </div>
+  {github && (
+    <p class="card__link">
+      <a href={github} target="_blank" rel="noreferrer">Voir sur GitHub →</a>
+    </p>
+  )}
+</article>

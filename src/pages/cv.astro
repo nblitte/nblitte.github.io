@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { LINKS } from "../config/site";
+---
+
+<BaseLayout pageTitle="CV" pageDescription="CV en ligne — cybersécurité, qualité logicielle et automatisation des tests.">
+  <h1>CV</h1>
+
+  <p>
+    {LINKS.cvPdf && <a class="btn" href={LINKS.cvPdf}>Télécharger le CV (PDF)</a>}
+  </p>
+
+  <h2>Profil</h2>
+  <p class="muted">
+    À compléter : accroche courte orientée poste visé (ingénieur cybersécurité / GRC / SOC).
+  </p>
+
+  <h2>Compétences clés</h2>
+  <p class="muted">Voir la page <a href="/skills">Compétences</a> pour le détail complet.</p>
+
+  <h2>Expériences</h2>
+  <p class="muted">À compléter avec les postes/missions les plus pertinents pour le poste visé.</p>
+
+  <h2>Formations & certifications</h2>
+  <p class="muted">Master 2 Ingénierie des Systèmes Complexes · Licence/Maîtrise Informatique · ISTQB · Formatrice professionnelle certifiée · Coach professionnelle certifiée RNCP niveau II.</p>
+</BaseLayout>

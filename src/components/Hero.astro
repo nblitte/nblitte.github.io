@@ -1,0 +1,22 @@
+---
+import { LINKS } from "../config/site";
+
+interface Props {
+  title: string;
+  subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<section class="hero">
+  <h1>{title}</h1>
+  <p class="hero__subtitle">{subtitle}</p>
+
+  <div class="hero__cta">
+    <a class="btn" href="/portfolio">Voir le portfolio</a>
+    {LINKS.cvPdf && <a class="btn btn--ghost" href={LINKS.cvPdf}>Télécharger le CV</a>}
+    <a class="btn btn--ghost" href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>
+    <a class="btn btn--ghost" href={LINKS.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+  </div>
+</section>
