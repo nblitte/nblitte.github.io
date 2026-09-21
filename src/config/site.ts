@@ -12,7 +12,8 @@ export const SITE = {
 export const LINKS = {
   github: "https://github.com/nblitte",
   linkedin: "https://www.linkedin.com/in/nathalieblitte",
-  cvPdf: "", // ex. "/cv-nathalie-blitte.pdf" une fois le PDF déposé dans public/ ; vide = boutons masqués
+  cvPdf: "/cv-nathalie-blitte.pdf",
+  cvPdfEn: "/cv-nathalie-blitte-en.pdf",
   email: "nathalie.blitte@gmail.com",
 };
 
@@ -22,6 +23,6 @@ export const NAV = [
   { href: "/cv", label: "CV" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/skills", label: "Compétences" },
-  // { href: "/blog", label: "Blog" }, // à réactiver dès le premier article publié
+  { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];

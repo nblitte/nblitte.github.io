@@ -3,24 +3,87 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { LINKS } from "../config/site";
 ---
 
-<BaseLayout pageTitle="CV" pageDescription="CV en ligne — cybersécurité, qualité logicielle et automatisation des tests.">
-  <h1>CV</h1>
+<BaseLayout pageTitle="CV" pageDescription="CV en ligne : ingénieure cybersécurité GRC & AppSec, qualité logicielle et automatisation des tests. Anglais bilingue.">
+  <h1>Ingénieure Cybersécurité GRC &amp; AppSec</h1>
+  <p class="muted">Qualité logicielle &amp; automatisation des tests · Double compétence cybersécurité · <strong>Anglais bilingue</strong> · <a href="https://www.linkedin.com/in/nathalieblitte" rel="noopener">LinkedIn</a></p>
 
-  <p>
-    {LINKS.cvPdf && <a class="btn" href={LINKS.cvPdf}>Télécharger le CV (PDF)</a>}
+  <p class="cta-row">
+    {LINKS.cvPdf && <a class="btn" href={LINKS.cvPdf}>Télécharger le CV (PDF, français)</a>}
+    {LINKS.cvPdfEn && <a class="btn btn--ghost" href={LINKS.cvPdfEn}>Download CV (PDF, English)</a>}
   </p>
 
   <h2>Profil</h2>
-  <p class="muted">
-    À compléter : accroche courte orientée poste visé (ingénieur cybersécurité / GRC / SOC).
+  <p>
+    Cadre bilingue avec 15 ans d'expérience en qualité logicielle, automatisation des tests et pilotage de projets.
+    En transition vers la cybersécurité (GRC et sécurité applicative). Projets publics
+    <a href="https://github.com/nblitte" rel="noopener">GitHub</a> : de la validation de contrôles de sécurité à l'audit défensif de réseau.
   </p>
 
   <h2>Compétences clés</h2>
-  <p class="muted">Voir la page <a href="/skills">Compétences</a> pour le détail complet.</p>
+  <p class="muted">
+    Cybersécurité / GRC · Tests et automatisation (Selenium, Pytest, Postman/Newman) · CI/CD (GitHub Actions,
+    Jenkins) · Python, Bash, PowerShell, SQL · Linux, Windows, Active Directory · Management et pilotage de projets.
+    Voir la page <a href="/skills">Compétences</a> pour le détail complet.
+  </p>
 
-  <h2>Expériences</h2>
-  <p class="muted">À compléter avec les postes/missions les plus pertinents pour le poste visé.</p>
+  <h2>Expérience professionnelle</h2>
 
-  <h2>Formations & certifications</h2>
-  <p class="muted">Master 2 Ingénierie des Systèmes Complexes · Licence/Maîtrise Informatique · ISTQB · Formatrice professionnelle certifiée · Coach professionnelle certifiée RNCP niveau II.</p>
+  <h3>Pause professionnelle – Montée en compétences en cybersécurité</h3>
+  <p class="muted">Septembre 2024 – aujourd'hui</p>
+  <ul>
+    <li>Formation autonome sur <a href="https://tryhackme.com" rel="noopener">TryHackMe</a> (parcours Security Engineer/GRC) ; veille technologique ; <a href="/portfolio">portfolio technique</a> (Projets, Astro, GitHub Pages, GitHub Actions, Dependabot).</li>
+  </ul>
+
+  <h3>Fondatrice, directrice commerciale et responsable de formation — Bitoo, Nantes</h3>
+  <p class="muted">Octobre 2018 – Juillet 2023</p>
+  <ul>
+    <li>Augmentation du CA de 158 % en 2 ans ; recrutement de 10,5 ETP et de sous-traitants.</li>
+    <li>Automatisation des processus de vente et du CRM ; réponses à appels d'offres et avant-vente.</li>
+    <li>Conception et animation de formations techniques ; intégration de nouvelles technologies, VMs et POCs.</li>
+    <li>Certification Qualiopi, accréditation GASQ, référencement auprès des financeurs publics.</li>
+  </ul>
+
+  <h3>Directrice de projet — Ausy, Nantes</h3>
+  <p class="muted">Décembre 2017 – Septembre 2018</p>
+  <ul>
+    <li>Responsable de l'offre de test de la Direction des Projets France ; pilotage des avant-ventes ; encadrement d'équipes projet.</li>
+  </ul>
+
+  <h3>Chef de projet — Vigicorp, Nantes</h3>
+  <p class="muted">Août 2016 – Novembre 2017</p>
+  <ul>
+    <li>Pilotage de la cellule de tests, déploiement des outils, stratégie et référentiels de test, conduite du changement.</li>
+  </ul>
+
+  <h3>Chef de projet recette et responsable d'équipe support — Capgemini, Rennes</h3>
+  <p class="muted">Décembre 2010 – Avril 2016</p>
+  <ul>
+    <li>Projets de validation multi-applicatifs (CNSA, DILA, SNCF Réseau) ; tests fonctionnels et automatisés.</li>
+    <li>Support N0/N1 : KPIs, suivi du SLA, comités de suivi, gestion de crise.</li>
+  </ul>
+
+  <h2>Expériences complémentaires</h2>
+  <ul>
+    <li>09/2023 – 08/2024 : Professeur de technologie — Collèges privés St Joseph et St Roch</li>
+    <li>04/2016 – 07/2016 : Chef de projet — Alteca, Nantes (offre DevOps Test, audits TMMi)</li>
+    <li>08/2007 – 12/2010 : Responsable de recette fonctionnelle — CGI France, Rennes (SFR, OBS et GNFA)</li>
+  </ul>
+
+  <h2>Certifications</h2>
+  <ul>
+    <li>2016 – 2025 : Pre-Security (<a href="https://tryhackme.com" rel="noopener">TryHackMe</a>) ; ISTQB Avancé Analyste de Test ; A4Q Selenium Testeur ; ISTQB Testeur Agile ; ISTQB Model-Based Testing ; HP ExpertOne (Micro Focus) ; ISTQB Testeur Fondation</li>
+  </ul>
+
+  <h2>Formation</h2>
+  <ul>
+    <li>2022 : Formateur professionnel certifié — Orsys Formation</li>
+    <li>2016 – 2019 : Master 2 Ingénierie des Systèmes Complexes (mention Bien) — Polytechnique Angers</li>
+    <li>2019 : AI: Implications for Business Strategy — MIT</li>
+    <li>2018 : Coach professionnel certifié RNCP niveau II et formateur en gestion du stress — École Supérieure de Coaching de Paris</li>
+  </ul>
+
+  <h2>Engagement associatif</h2>
+  <ul>
+    <li>2015 – 2023 : Membre du CA et du bureau, animatrice du forum AMOA/BA — ADN Ouest</li>
+  </ul>
 </BaseLayout>

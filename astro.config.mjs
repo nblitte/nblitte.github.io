@@ -6,5 +6,5 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://nblitte.github.io",
   base: "/",
-  integrations: [sitemap({ filter: (page) => !page.endsWith("/neovim/") && !page.includes("/blog") })],
+  integrations: [sitemap({ filter: (page) => !page.endsWith("/neovim/") })],
 });
