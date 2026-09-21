@@ -22,6 +22,6 @@ export const NAV = [
   { href: "/cv", label: "CV" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/skills", label: "Compétences" },
-  { href: "/blog", label: "Blog" },
+  // { href: "/blog", label: "Blog" }, // à réactiver dès le premier article publié
   { href: "/contact", label: "Contact" },
 ];
